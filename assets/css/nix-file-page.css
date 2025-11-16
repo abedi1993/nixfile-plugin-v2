@@ -1,0 +1,951 @@
+@import "loader.css";
+
+
+* {
+    scroll-behavior: smooth;
+    box-sizing: border-box !important;
+}
+
+@keyframes zzz {
+    0% {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+    100% {
+        color: transparent;
+    }
+}
+
+@keyframes tail {
+    0% {
+        transform: rotateZ(60deg);
+    }
+    50% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(-20deg);
+    }
+}
+
+.nixfile-container {
+    margin: 10px 2px 0 25px;
+
+    button,
+    .nixfile-button {
+        background-color: #f6f7f7;
+        border: 1px solid #2d77b0;
+        border-radius: 3px;
+        color: #2d77b0;
+        cursor: pointer;
+
+        &:hover {
+            background-color: transparent;
+        }
+    }
+
+    .nixfile-media-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        button {
+            padding: 4px 10px;
+        }
+
+        h1 {
+            font-size: 1.7em;
+        }
+    }
+
+    .nixfile-uploader {
+        margin: 20px 0;
+        border: 4px dashed #c3c4c7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position: relative;
+
+        &.active {
+            border-color: #2d77b0;
+        }
+
+        #nixfile-close-btn {
+            display: block;
+            position: absolute;
+            inset-inline-end: 8px;
+            top: 8px;
+            cursor: pointer;
+            z-index: 9999;
+            background-color: initial;
+            border: none;
+            width: 3em;
+            height: 3em;
+
+            &:before {
+                font: normal 30px/1 dashicons !important;
+                color: #50575e;
+                display: inline-block;
+                content: "\f335";
+                font-weight: 300;
+                margin-top: 1px;
+            }
+        }
+
+        .nixfile-uploader-content {
+            margin: 2em 0;
+            text-align: center;
+
+            h1 {
+                font-size: 1.25em;
+            }
+
+            p {
+                font-size: 0.9em;
+                margin: .8em 0;
+            }
+
+            input {
+                display: none;
+            }
+
+            .nixfile-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 3em;
+                font-size: 1.2em;
+            }
+        }
+    }
+
+    .nixfile-filter-bar {
+        background-color: #fff;
+        border: 1px solid #c3c4c7;
+        height: auto;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .nixfile-media-tools,
+        .nixfile-multi-select-tools {
+            width: 66%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            button {
+                padding: 6px 8px;
+                height: 100%;
+
+                &#nixfile-buy {
+                    background-color: #2271b1;
+
+                    a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+
+        .nixfile-multi-select-tools {
+            button {
+                &:first-child {
+                    background-color: #2271b1;
+                    color: #fff;
+
+                    &.disabled {
+                        background-color: transparent;
+                        border: 1px solid #D5D5D5;
+                        color: #D5D5D5;
+                        pointer-events: none;
+                    }
+                }
+            }
+        }
+
+        .nixfile-search-box {
+            label {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                color: #50575e;
+
+                span {
+                    display: block;
+                }
+
+                input {
+                    width: 280px;
+                    max-width: 100%;
+                }
+            }
+
+        }
+    }
+
+    .nixfile-setting {
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff;
+        padding: 18px;
+        gap: 14px;
+        margin-top: 15px;
+
+        & > div {
+            width: 100%;
+
+            &:nth-child(1) {
+                width: 40%;
+            }
+        }
+
+        .nixfile-token,
+        .nixfile-option {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            gap: 0;
+
+            label,
+            p {
+                margin: 0;
+                border: 1px solid rgba(122, 122, 122, 0.44);
+                display: flex;
+                justify-content: space-between;
+                padding: 8px 16px;
+
+                &:nth-child(1) {
+                    border-bottom: none;
+                }
+
+                button {
+                    padding: 4px;
+                    width: 5em;
+                    border-radius: 15px;
+                    background-color: #00aa2c;
+                    color: #fff;
+                    border: none;
+                    font-weight: 800;
+                }
+
+                input {
+                    background-color: transparent;
+                    width: 80%;
+                    border: none;
+                    direction: ltr;
+
+                    &:focus {
+                        box-shadow: initial;
+                    }
+                }
+            }
+        }
+
+        .nixfile-statistic {
+            display: flex;
+            gap: 15px;
+
+            .nixfile-capacity,
+            .nixfile-expired {
+                div {
+                    position: relative;
+                    width: 55px;
+                    height: 55px;
+                    display: flex;
+                    align-items: center;
+                    margin: 0 auto;
+
+                    p {
+                        position: absolute;
+                        bottom: 0;
+                        top: 0;
+                        right: 0;
+                        left: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.2em;
+                    }
+                }
+
+                p {
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    .nixfile-media-section-container {
+        display: flex;
+        gap: 15px;
+        position: relative;
+
+        .nixfile-detail-bar {
+            width: 250px;
+            height: 73vh;
+            position: sticky;
+            border: 1px solid #D5D5D5;
+            margin-top: 20px;
+            background-color: #fff;
+            top: 50px;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            box-sizing: border-box;
+
+            hr {
+                margin-top: 25px;
+                width: 100%;
+            }
+
+            img {
+                width: 100%;
+                max-height: 250px;
+            }
+
+            p {
+                margin: 5px;
+
+                a {
+                    text-decoration: none;
+                }
+            }
+
+            .nixfile-detail-actions {
+                justify-self: flex-end;
+                margin-top: auto;
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                align-items: center;
+
+                button {
+                    background-color: #666;
+                    border: none;
+                    color: #fff;
+                    font-weight: bold;
+                    height: 35px;
+                    width: 35%;
+                }
+
+                input {
+                    background-color: #D5D5D5;
+                    border: 1px solid #D5D5D5;
+                    height: 35px;
+                    border-radius: 4px;
+                    padding: 8px;
+                    overflow-y: hidden;
+                    overflow-x: scroll;
+                    box-sizing: border-box;
+                    user-select: none;
+                    position: relative;
+                    pointer-events: none;
+                    width: 75%;
+
+                    &:focus {
+                        box-shadow: none;
+                        outline: none;
+                    }
+                }
+            }
+        }
+
+        .nixfile-media-section {
+            margin: 20px 0;
+            display: grid;
+            height: fit-content;
+            grid-template-rows: auto;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 18px;
+            justify-content: space-between;
+            flex-grow: 1;
+
+            .nixfile-media-box,
+            .nixfile-folder {
+                border: 1px solid #D5D5D5;
+                aspect-ratio: 1/1;
+                display: flex;
+                align-items: center;
+                position: relative;
+                box-shadow: inset 0 0 15px rgba(0, 0, 0, .1), inset 0 0 0 1px rgba(0, 0, 0, .05);
+                background-color: #f0f0f1;
+                cursor: pointer;
+                background-position: center;
+                background-size: cover;
+                justify-content: flex-end;
+                flex-direction: column;
+                object-fit: cover;
+
+                .nixfile-media-progress {
+                    width: 20%;
+                    display: block;
+                    height: 3px;
+                    background-color: green;
+                    transition: .5s ease-in-out;
+                    margin: 2em;
+                }
+
+                .nixfile-folder-icon {
+                    background-size: 80%;
+                    box-sizing: border-box;
+                    background-position: center -3px;
+                    width: 100%;
+                    height: 100%;
+                    background-repeat: no-repeat;
+                }
+
+                .nixfile-multi-select-label {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    bottom: 0;
+
+                    input {
+                        display: none;
+                    }
+
+                    &.active {
+                        border: 3px solid #0a875a;
+                        box-sizing: border-box;
+                    }
+                }
+
+                p {
+                    position: absolute;
+                    color: #000;
+                    font-size: 1em;
+                    background-color: #fff;
+                    width: 100%;
+                    text-align: center;
+                    margin: 0;
+                    padding: 4px 0;
+                    border-top: 1px solid #D5D5D5;
+                }
+
+                &.active {
+                    opacity: 1 !important;
+                }
+            }
+
+            .nixfile-folder {
+                box-shadow: initial;
+                position: relative;
+                display: flex;
+                align-items: center;
+
+                .nixfile-folder-icon {
+                    background-position: center -15px;
+                }
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                    color: #777;
+                }
+
+            }
+
+            .nixfile-media-box {
+                position: relative;
+
+                .copy {
+                    display: none;
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    background-color: rgba(0, 139, 170, 0.2);
+                }
+            }
+
+
+        }
+    }
+
+    .nixfile-errors-box {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        z-index: 99999;
+        transition: .5s ease-in;
+
+        .nixfile-errors {
+            margin-inline-start: -100%;
+            transition: all .5s ease-in-out;
+            display: block;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            padding: 8px;
+            max-height: 40px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            width: 285px;
+            background-color: red;
+            color: #fff;
+            font-weight: bold;
+        }
+    }
+
+    .nixfile-success-toast {
+        position: fixed;
+        bottom: 0;
+        inset-inline-start: -100%;
+        transition: all .5s ease-in-out;
+        display: block;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        padding: 8px;
+        max-height: 40px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        width: 285px;
+        background-color: green;
+        color: #fff;
+        font-weight: bold;
+        z-index: 9999999;
+        text-align: center;
+    }
+
+    .nixfile-folder-form-container,
+    .nixfile-file-edit-name-form-container {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, .3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .nixfile-folder-form,
+        .nixfile-file-edit-form {
+            background-color: #fff;
+            padding: 18px;
+            border-radius: 8px;
+            width: 19em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            z-index: 99999;
+
+            svg,
+            img {
+                width: 5em;
+                height: 5em;
+                opacity: .5;
+                top: 1em;
+            }
+
+            img {
+                opacity: 1;
+            }
+
+            label {
+                width: 100%;
+
+                span {
+                    display: block;
+                    margin-bottom: 6px;
+                }
+
+                input {
+                    display: block;
+                    width: 100%;
+
+                    &::placeholder {
+                        opacity: .5;
+                    }
+                }
+            }
+
+            button,
+            input[type=submit] {
+                display: block;
+                width: 100%;
+                margin-top: 1em;
+                padding: 4px;
+                background-color: #2d77b0;
+                color: #fff;
+                border: none;
+            }
+        }
+
+    }
+
+    #breadcrumb {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .nixfile-breadcrumb-items {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row-reverse;
+            cursor: pointer;
+            margin: 0;
+
+            svg {
+                width: 1em;
+                height: 1em;
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    .nixfile-folder-contextmenu,
+    .nixfile-file-contextmenu {
+        border: 1px solid #ccc;
+        border-radius: 9px;
+        background-color: #fff;
+        text-align: center;
+        width: 130px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        max-height: 350px;
+        z-index: 999999;
+        overflow: hidden;
+
+        ul {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+
+            li {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                font-size: 1.3em;
+                font-weight: lighter;
+                margin: 0;
+                box-sizing: border-box;
+                padding: 8px 4px;
+                color: #8c8888;
+                position: relative;
+                cursor: pointer;
+                width: 100%;
+                height: 100%;
+                gap: 6px;
+                border-bottom: 1px solid #D5D5D5;
+
+                &:hover {
+                    background-color: #D5D5D5;
+                }
+
+                svg {
+                    width: 1.2em;
+                    height: 1.2em;
+                }
+            }
+        }
+    }
+
+    #nixfile-delete-folder-form-container,
+    #nixfile-delete-file-form-container,
+    #nixfile-replace-file-form-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, .3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        form {
+            width: 30%;
+            background-color: #fff;
+            flex-direction: column;
+            border-radius: 8px;
+            align-items: center;
+            padding: 20px;
+            margin: 30px;
+            height: 200px;
+            display: flex;
+            gap: 20px;
+
+            label {
+                input {
+                    display: none;
+                    margin: 0 auto;
+                }
+
+                &.nixfile-upload-file {
+                    border: 1px solid #D5D5D5;
+                    height: 40px;
+                    width: 100%;
+                    margin: 18px 0;
+                    display: flex;
+                    align-items: center;
+                    overflow: hidden;
+                    justify-content: space-between;
+
+                    span {
+                        background-color: #0a875a;
+                        display: block;
+                        padding: 8px;
+                        color: #fff;
+                        width: 0;
+                        opacity: 0;
+                    }
+
+                    &:before {
+                        content: "انتخاب فایل";
+                        background-color: #D5D5D5;
+                        padding: 8px 0;
+                        width: 35%;
+                        white-space: nowrap;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+            }
+
+            h1 {
+                font-size: 1.6em;
+                margin-bottom: 18px;
+                line-height: 1.5;
+            }
+
+            & > div {
+                width: 100%;
+                display: flex;
+
+                input[type=submit] {
+                    width: 60%;
+                    background-color: red;
+                    border: 1px solid crimson;
+                    color: #fff;
+                    cursor: pointer;
+                    padding: 7px;
+                }
+
+                button {
+                    width: 40%;
+                }
+            }
+        }
+    }
+
+    .nixfile-flex {
+        display: flex;
+    }
+
+    .nixfile-items-center {
+        align-items: center;
+    }
+
+    .nixfile-gap-4 {
+        gap: 16px;
+    }
+
+    #nixfile-folder-move-container {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.689);
+
+        .nixfile-folder-move-content {
+            min-width: 400px;
+            background-color: white;
+            padding: 16px;
+            color: black;
+
+            .nixfile-create-new-folder {
+                border: none;
+            }
+
+            .nixfile-create-new-folder-form {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                label {
+                    width: 75%;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+
+                button {
+                    padding: 3.5px;
+                    width: 25%;
+
+
+                    svg {
+                        transition: .5s ease;
+                    }
+                }
+            }
+
+
+        }
+
+        .nixfile-folder-mov-header {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .nixfile-size-12 {
+            margin: auto;
+            width: 48px;
+            height: 48px;
+        }
+
+        .nixfile-button-modal {
+            cursor: pointer;
+            color: #4299e1;
+        }
+
+        .nixfile-folder-move-folder-name {
+            margin-top: 12px;
+            background-color: #e2e8f0;
+            padding: 8px 16px;
+            font-size: 0.600rem;
+            font-weight: 600;
+        }
+
+        .nixfile-divider {
+            border: 1px solid #D5D5D5;
+            font-size: 0.875rem;
+            max-height: 200px;
+            overflow-y: scroll;
+            scrollbar-width: none;
+
+            button {
+                width: 20px;
+                aspect-ratio: 1/1;
+                border: none;
+                margin-right: auto;
+            }
+        }
+
+        .nixfile-folder-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 8px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nixfile-folder-item-dropdown-container,
+        .nixfile-move-folder-container {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #e2e8f0;
+            box-sizing: border-box;
+            cursor: pointer;
+
+            .nixfile-folder-item-dropdown-container,
+            .nixfile-move-folder-container {
+                .nixfile-folder-item {
+                    margin: 0 15px;
+                }
+            }
+
+            button {
+                &.active {
+                    svg {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            &.selected {
+                border: 1px solid #0060ec;
+                background-color: #f2f8ff;
+            }
+        }
+
+        .nixfile-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            justify-content: space-between;
+            padding: 8px 16px;
+        }
+
+        .nixfile-folder-move-icon {
+            width: 32px;
+            height: 32px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .nixfile-folder-name-text {
+            font-size: 0.875rem;
+        }
+
+        .nixfile-close-button {
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nixfile-size-4 {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nixfile-content {
+            padding: 16px;
+        }
+
+        .nixfile-footer {
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.875rem;
+        }
+
+        .nixfile-blue-button {
+            cursor: pointer;
+            background-color: #3182ce;
+            padding: 8px 16px;
+            color: white;
+        }
+
+        .nixfile-cancel-button {
+            cursor: pointer;
+            background-color: #e2e8f0;
+            padding: 8px 16px;
+        }
+
+        .nixfile-size-4 {
+            transition: transform 0.3s;
+        }
+
+        .nixfile-size-4.rotated {
+            transform: rotate(180deg);
+        }
+    }
+}

@@ -1,0 +1,1 @@
+export const getToken = localStorage.getItem("token") ?? document.querySelector("input[name=nixfile_store_token]").value;

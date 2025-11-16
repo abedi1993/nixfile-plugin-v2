@@ -1,0 +1,1 @@
+export const nixfileAjaxData = nixfile_ajax_data;
