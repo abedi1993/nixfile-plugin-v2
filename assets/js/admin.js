@@ -22,14 +22,12 @@ jQuery(document).ready(function ($) {
                 formData.append("domain_id", nixfileSettingData.current_settings.token);
                 if (nixfileSettingData.current_settings) {
                     const setting = nixfileSettingData.current_settings;
-                    if (setting.avif_on_upload) {
-                        formData.append("collection", "avif");
-                    }
-                    if (setting.compress_upload) {
-                        formData.append("collection", "compress");
-                    }
                     if (setting.avif_on_upload && setting.compress_upload) {
                         formData.append("collection", "avif-compressed");
+                    } else if (setting.avif_on_upload) {
+                        formData.append("collection", "avif");
+                    } else if (setting.compress_upload) {
+                        formData.append("collection", "compress");
                     }
                 }
                 const preloader = $('<div class="nixfile-preloader"></div>');
