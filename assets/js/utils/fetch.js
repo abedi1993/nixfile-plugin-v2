@@ -77,36 +77,36 @@ function handleUploadError(box) {
 }
 
 export function xhr(url, formData, box) {
+    const isElement = box instanceof Element;
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-
         xhr.upload.addEventListener('progress', (event) => {
-            if (event.lengthComputable) {
-                const percent = Math.round((event.loaded / event.total) * 100);
+            if (event.lengthComputable && isElement) {
                 const progressBar = box.querySelector('.nixfile-media-progress');
                 if (progressBar) {
+                    const percent = Math.round((event.loaded / event.total) * 100);
                     updateProgressBar(progressBar, percent);
                 }
             }
         });
-
         xhr.addEventListener('load', () => {
             if (xhr.status >= 200 && xhr.status < 300) {
+                let response;
                 try {
-                    const response = JSON.parse(xhr.responseText);
-                    handleUploadSuccess(box, response);
-                    resolve(response);
-                } catch (error) {
-                    reject(new Error('Invalid JSON response'));
+                    response = JSON.parse(xhr.responseText);
+                } catch (e) {
+                    return reject(new Error("Invalid JSON response"));
                 }
-            } else {
-                handleUploadError(box);
-                reject(new Error(`Upload failed with status ${xhr.status}`));
+                if (isElement) handleUploadSuccess(box, response);
+
+                return resolve(response);
             }
+            if (isElement) handleUploadError(box);
+            reject(new Error(`Upload failed with status ${xhr.status}`));
         });
 
         xhr.addEventListener('error', () => {
-            handleUploadError(box);
+            if (isElement) handleUploadError(box);
             reject(new Error('Network error during upload'));
         });
 
@@ -114,6 +114,7 @@ export function xhr(url, formData, box) {
         xhr.send(formData);
     });
 }
+
 
 export async function wpRestPost(url, data) {
     return makeRequest(url, {
