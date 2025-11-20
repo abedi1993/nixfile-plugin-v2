@@ -76,7 +76,7 @@ function handleUploadError(box) {
     setTimeout(() => box.remove(), 5000);
 }
 
-export function uploadWithProgress(url, formData, box) {
+export function xhr(url, formData, box) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
 

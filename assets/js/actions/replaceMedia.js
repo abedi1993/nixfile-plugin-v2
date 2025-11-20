@@ -1,4 +1,4 @@
-import {post, xhr} from "../utils/fetch.js";
+import {post} from "../utils/fetch.js";
 import {link} from "../__apiRoutes.js";
 import {getToken} from "../utils/getToken.js";
 

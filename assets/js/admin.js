@@ -20,8 +20,18 @@ jQuery(document).ready(function ($) {
                 formData.append('upload_type', '1');
                 formData.append('expired_at', '2');
                 formData.append("domain_id", nixfileSettingData.current_settings.token);
-
-                // === PREVIEW + PROGRESS ===
+                if (nixfileSettingData.current_settings) {
+                    const setting = nixfileSettingData.current_settings;
+                    if (setting.avif_on_upload) {
+                        formData.append("collection", "avif");
+                    }
+                    if (setting.compress_upload) {
+                        formData.append("collection", "compress");
+                    }
+                    if (setting.avif_on_upload && setting.compress_upload) {
+                        formData.append("collection", "avif-compressed");
+                    }
+                }
                 const preloader = $('<div class="nixfile-preloader"></div>');
                 const progressBar = $('<div class="nixfile-progress-bar"><span>0%</span></div>');
                 preloader.append(progressBar);
