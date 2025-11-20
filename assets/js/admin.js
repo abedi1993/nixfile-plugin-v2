@@ -23,11 +23,11 @@ jQuery(document).ready(function ($) {
                 if (nixfileSettingData.current_settings) {
                     const setting = nixfileSettingData.current_settings;
                     if (setting.avif_on_upload && setting.compress_upload) {
-                        formData.append("collection", "avif-compressed");
+                        formData.append("collection", "6");
                     } else if (setting.avif_on_upload) {
-                        formData.append("collection", "avif");
+                        formData.append("collection", "5");
                     } else if (setting.compress_upload) {
-                        formData.append("collection", "compress");
+                        formData.append("collection", "3");
                     }
                 }
                 const preloader = $('<div class="nixfile-preloader"></div>');
